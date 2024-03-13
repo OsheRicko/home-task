@@ -16,6 +16,8 @@ def instructions():
     <button onclick="location.href='/weather/Tokyo';">Get Weather for Tokyo</button>
     <button onclick="location.href='/weather/Sydney';">Get Weather for Sydney</button>
     <button onclick="location.href='/weather/Rome';">Get Weather for Rome</button>
+    <button onclick="location.href='/weather/Tel-Aviv';">Get Weather for Tel Aviv</button>
+    <button onclick="location.href='/weather/New-York';">Get Weather for New York</button>
     """
 
 @app.route('/weather/<city>')
