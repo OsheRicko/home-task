@@ -5,17 +5,13 @@ FROM python:3.9-slim AS base
 WORKDIR /app
 
 # Copy the Flask application code into the container
-COPY hello-world.py .
+COPY weather-app.py .
 
 # Install Flask and dependencies
-RUN pip install --no-cache-dir flask
+RUN pip install --no-cache-dir flask requests
 
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
 # Command to run the Flask application
-CMD ["python", "hello-world.py"]
-
-# Second stage for optimization
-FROM base AS release
-
+CMD ["python", "weather-app.py"]
