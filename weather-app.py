@@ -10,10 +10,10 @@ WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/weather')
-def get_weather():
+@app.route('/weather/<city>')
+def get_weather(city):
     # Make a request to the weather API
-    params = {'key': API_KEY, 'q': 'London'}  # Example location, you can change it
+    params = {'key': API_KEY, 'q': city}
     response = requests.get(WEATHER_API_URL, params=params)
     
     if response.status_code == 200:
