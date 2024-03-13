@@ -53,4 +53,4 @@ def format_weather_data(weather_data):
 
 if __name__ == '__main__':
     # Running Flask on 0.0.0.0 to bind to all network interfaces
-    app.run(debug=False, host='0.0.0.0', port=80)
+    app.run(debug=False, host='0.0.0.0', port=80) 
