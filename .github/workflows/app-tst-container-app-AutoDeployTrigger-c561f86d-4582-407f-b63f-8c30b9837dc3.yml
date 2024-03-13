@@ -35,7 +35,7 @@ jobs:
           registryPassword: ${{ secrets.APPTSTCONTAINERAPP_REGISTRY_PASSWORD }}
           containerAppName: app-tst-container-app
           resourceGroup: devops-task
-          imageToBuild: osher475@gmail.com/app-tst-container-app:${{ github.sha }}
+          imageToBuild: oshericko/app-tst-container-app:${{ github.sha }}
           
             
 
