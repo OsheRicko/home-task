@@ -1,0 +1,43 @@
+name: Trigger auto deployment for app-tst-container-app
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/app-tst-container-app-AutoDeployTrigger-c71b09e5-abeb-44ed-a7f9-200e1c50e42f.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.APPTSTCONTAINERAPP_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.APPTSTCONTAINERAPP_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.APPTSTCONTAINERAPP_REGISTRY_PASSWORD }}
+          containerAppName: app-tst-container-app
+          resourceGroup: devops-task
+          imageToBuild: oshericko/image-test:${{ github.sha }}
+          
+            
+
+     
+
