@@ -13,12 +13,16 @@ def instructions():
     <p>To retrieve weather information, push the button next to the desired city below or make a GET request to /weather/city_name, replacing 'city_name' with the name of the city for which you want to fetch weather data.</p>
     <p>Example: /weather/London</p>
     <button onclick="location.href='/weather/London';">Get Weather for London</button>
-    <button onclick="location.href='/weather/TelAviv';">Get Weather for Tel Aviv</button>
-    <button onclick="location.href='/weather/NewYork';">Get Weather for New York</button>
+    <button onclick="location.href='/weather/Tokyo';">Get Weather for Tokyo</button>
+    <button onclick="location.href='/weather/Sydney';">Get Weather for Sydney</button>
+    <button onclick="location.href='/weather/Rome';">Get Weather for Rome</button>
     """
 
 @app.route('/weather/<city>')
 def get_weather(city):
+    # Replace dashes with spaces in the city name
+    city = city.replace('-', ' ')
+    
     # Make a request to the weather API
     params = {'key': API_KEY, 'q': city}
     response = requests.get(WEATHER_API_URL, params=params)
