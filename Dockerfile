@@ -19,4 +19,3 @@ EXPOSE 5000
 
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
- 
