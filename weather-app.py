@@ -9,9 +9,9 @@ WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
 @app.route('/')
 def instructions():
     return """
-    <h1>Weather Retrieval Instructions</h1>
-    <p>To retrieve weather information, push the button next to the desired city below or make a GET request to /weather/city_name, replacing 'city_name' with the name of the city for which you want to fetch weather data.</p>
-    <p>Example: /weather/London</p>
+    <h1>Weather Around The World</h1>
+    <p>Just click the city you want to check on.</p>
+    <p>Go ahead!</p>
     <button onclick="location.href='/weather/London';">Get Weather for London</button>
     <button onclick="location.href='/weather/Tokyo';">Get Weather for Tokyo</button>
     <button onclick="location.href='/weather/Sydney';">Get Weather for Sydney</button>
