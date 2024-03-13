@@ -7,8 +7,12 @@ API_KEY = 'f0a146930b4d4d689e195332241303'
 WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def instructions():
+    return """
+    <h1>Weather Retrieval Instructions</h1>
+    <p>To retrieve weather information, make a GET request to /weather/city_name, replacing 'city_name' with the name of the city for which you want to fetch weather data.</p>
+    <p>Example: /weather/London</p>
+    """
 
 @app.route('/weather/<city>')
 def get_weather(city):
@@ -28,16 +32,16 @@ def format_weather_data(weather_data):
     location = weather_data.get('location', {})
     
     formatted_weather = {
-        'city': location.get('name', ''),
-        'country': location.get('country', ''),
-        'temperature_c': current.get('temp_c', ''),
-        'temperature_f': current.get('temp_f', ''),
-        'condition': current.get('condition', {}).get('text', ''),
-        'humidity': current.get('humidity', ''),
-        'wind_speed_kph': current.get('wind_kph', ''),
-        'wind_speed_mph': current.get('wind_mph', ''),
-        'wind_direction': current.get('wind_dir', ''),
-        'last_updated': current.get('last_updated', ''),
+        'City': location.get('name', ''),
+        'Country': location.get('country', ''),
+        'Temperature (C)': current.get('temp_c', ''),
+        'Temperature (F)': current.get('temp_f', ''),
+        'Condition': current.get('condition', {}).get('text', ''),
+        'Humidity': current.get('humidity', ''),
+        'Wind Speed (kph)': current.get('wind_kph', ''),
+        'Wind Speed (mph)': current.get('wind_mph', ''),
+        'Wind Direction': current.get('wind_dir', ''),
+        'Last Updated': current.get('last_updated', ''),
     }
     
     return formatted_weather
