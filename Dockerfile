@@ -2,8 +2,8 @@
 FROM python:3.9-alpine
 
 # Create a non-root user
-RUN adduser -D myuser
-USER myuser
+# RUN adduser -D myuser
+# USER myuser
 
 # Set the working directory in the container
 WORKDIR /app
