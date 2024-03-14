@@ -18,10 +18,9 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.ASSIGNMENTAPP_AZURE_CREDENTIALS }}
+      - name: Azure CLI Login
+        run: az login -u devops@ubtechservices.onmicrosoft.com -p M1m2m3m4
+
 
       - name: Retrieve and print secret from Azure Key Vault
         run: |
