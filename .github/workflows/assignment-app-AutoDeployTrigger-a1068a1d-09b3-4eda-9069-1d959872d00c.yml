@@ -27,7 +27,7 @@ jobs:
       - name: Build container image
         run: |
           echo $SECRET
-          docker build --build-arg SQL_PASS='$SECRET' -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_PASS="${SECRET}" -t oshericko/assignment-app:${{ github.sha }} .
         env:
           SECRET: ${{ steps.get_secret.outputs.secret }}
 
