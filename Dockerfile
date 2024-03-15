@@ -5,7 +5,9 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the Flask application code into the container
-COPY weather-app.py .
+COPY petition-app.py .
+COPY templates /app/templates
+COPY static /app/static
 
 # Install required packages for connecting to SQL Server, Flask, and requests
 RUN apt-get update && \
@@ -32,4 +34,4 @@ ARG SQL_CONNECTION_STRING
 ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
 
 # Command to run the Flask application
-CMD ["python", "weather-app.py"]
+CMD ["python", "petition-app.py"]
