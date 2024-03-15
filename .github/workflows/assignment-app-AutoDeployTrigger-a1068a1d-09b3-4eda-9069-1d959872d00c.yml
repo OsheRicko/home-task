@@ -22,7 +22,7 @@ jobs:
 
       - name: Retrieve secret from Azure Key Vault
         id: get_secret
-        run: echo "::set-output name=secret::$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-password --query value -o tsv)"
+        run: echo "::set-output name=secret::$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)"
 
       - name: Build container image
         run: |
