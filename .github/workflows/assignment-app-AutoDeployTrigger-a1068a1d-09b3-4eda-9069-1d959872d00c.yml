@@ -30,7 +30,7 @@ jobs:
 
       - name: Retrieve and print secret from Azure Key Vault
         run: |
-          env.var=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)
+          env.var=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-conn-string --query value -o tsv)
 
       - name: Build container image
         run: |
