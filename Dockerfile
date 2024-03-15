@@ -18,10 +18,10 @@ RUN pip install --no-cache-dir flask requests
 EXPOSE 5000
 
 # Define ARG for SQL connection string
-ARG SQL_CONNECTION_STRING
+ARG SQL_PASS
 
 # Set environment variable for SQL connection string
-ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
+ENV SQL_PASS=$SQL_PASS
 
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
