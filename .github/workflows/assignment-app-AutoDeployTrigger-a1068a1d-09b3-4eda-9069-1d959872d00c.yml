@@ -1,16 +1,12 @@
 name: Trigger auto deployment for assignment-app
 
-# When this action will be executed
 on:
-  # Automatically trigger it when detected changes in the repo
   push:
     branches: 
       - main
     paths:
       - '**'
       - '.github/workflows/assignment-app-AutoDeployTrigger-a1068a1d-09b3-4eda-9069-1d959872d00c.yml'
-
-  # Allow manual trigger 
   workflow_dispatch:
       
 jobs:
@@ -25,13 +21,14 @@ jobs:
         run: az login -u devops@ubtechservices.onmicrosoft.com -p M1m2m3m4
 
       - name: Retrieve and print secret from Azure Key Vault
+        id: get_secret
         run: |
-          export SECRET=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-password --query value -o tsv)
+          echo "::set-env name=SECRET::$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-password --query value -o tsv)"
           echo $SECRET
 
       - name: Build container image
         run: |
-          docker build --build-arg 'SQL_PASS=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-password --query value -o tsv)' -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_PASS='$SECRET' -t oshericko/assignment-app:${{ github.sha }} .
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
