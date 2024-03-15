@@ -30,9 +30,7 @@ jobs:
 
       - name: Retrieve and print secret from Azure Key Vault
         run: |
-          export SQL_CONNECTION_STRING=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)
-          echo "SQL Connection String: $SQL_CONNECTION_STRING"
-          echo "::set-env name=var::$SQL_CONNECTION_STRING" # Set the value of var
+          export env.var=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)
 
       - name: Build container image
         run: |
