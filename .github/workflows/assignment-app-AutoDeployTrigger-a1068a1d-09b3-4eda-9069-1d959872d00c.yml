@@ -2,7 +2,7 @@ name: Trigger auto deployment for assignment-app
 
 # When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
+  # Automatically trigger it when detected changes in the repo
   push:
     branches: 
       - main
@@ -31,10 +31,10 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build --build-arg SQL_CONNECTION_STRING = $SQL_CONNECTION_STRING -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING -t oshericko/assignment-app:${{ github.sha }} .
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
 
       - name: Push container image to Docker Hub
-        run: docker push "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}"/assignment-app:${{ github.sha }}
+        run: docker push oshericko/assignment-app:${{ github.sha }}
