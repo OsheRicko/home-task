@@ -1,7 +1,12 @@
 from flask import Flask, jsonify
 import requests
+import os
 
 app = Flask(__name__)
+
+
+# Retrieve SQL connection string from environment variable
+SQL_CONNECTION_STRING = os.environ.get('SQL_CONNECTION_STRING')
 
 API_KEY = 'f0a146930b4d4d689e195332241303'
 WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
@@ -18,6 +23,7 @@ def instructions():
     <button onclick="location.href='/weather/Rome';">Get Weather for Rome</button>
     <button onclick="location.href='/weather/Tel-Aviv';">Get Weather for Tel Aviv</button>
     <button onclick="location.href='/weather/New-York';">Get Weather for New York</button>
+    <p>SQL Connection String: {SQL_CONNECTION_STRING}</p>
     """
 
 @app.route('/weather/<city>')
