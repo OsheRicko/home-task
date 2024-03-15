@@ -1,8 +1,5 @@
 name: Trigger auto deployment for assignment-app
 
-# Define variables
-env:
-  var: Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd={Password1234!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
 
 # When this action will be executed
 on:
@@ -30,11 +27,11 @@ jobs:
 
       - name: Retrieve and print secret from Azure Key Vault
         run: |
-          env.var=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-conn-string --query value -o tsv)
-
+          export SECRET=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-conn-string --query value -o tsv)
+          echo $SECRET
       - name: Build container image
         run: |
-          docker build --build-arg SQL_CONNECTION_STRING="${{ env.var }}" -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_CONNECTION_STRING="${{ SECRET }}" -t oshericko/assignment-app:${{ github.sha }} .
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
 
