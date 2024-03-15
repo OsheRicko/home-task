@@ -13,18 +13,7 @@ WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
 
 @app.route('/')
 def instructions():
-    return """
-    <h1>Weather Around The World</h1>
-    <p>Just click the city you want to check on.</p>
-    <p>Go ahead!</p>
-    <button onclick="location.href='/weather/London';">Get Weather for London</button>
-    <button onclick="location.href='/weather/Tokyo';">Get Weather for Tokyo</button>
-    <button onclick="location.href='/weather/Sydney';">Get Weather for Sydney</button>
-    <button onclick="location.href='/weather/Rome';">Get Weather for Rome</button>
-    <button onclick="location.href='/weather/Tel-Aviv';">Get Weather for Tel Aviv</button>
-    <button onclick="location.href='/weather/New-York';">Get Weather for New York</button>
-    <p>SQL Connection String: {SQL_CONNECTION_STRING}</p>
-    """
+    return f"SQL Connection String: {SQL_CONNECTION_STRING}"
 
 @app.route('/weather/<city>')
 def get_weather(city):
