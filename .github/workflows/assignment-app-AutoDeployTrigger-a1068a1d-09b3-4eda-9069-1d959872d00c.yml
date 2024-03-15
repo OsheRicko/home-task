@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
       
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,21 +24,15 @@ jobs:
       - name: Azure CLI Login
         run: az login -u devops@ubtechservices.onmicrosoft.com -p M1m2m3m4
 
-      - name: Retrieve and set secret from Azure Key Vault as a build argument
+      - name: Retrieve and print secret from Azure Key Vault
         run: |
           export SQL_CONNECTION_STRING=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)
+          echo "SQL Connection String: $SQL_CONNECTION_STRING"
 
       - name: Build container image
         run: |
           docker build --build-arg SQL_CONNECTION_STRING="$SQL_CONNECTION_STRING" -t oshericko/assignment-app:${{ github.sha }} .
-        
-      - name: Push container image to Azure Container Apps
-        uses: azure/container-apps-deploy-action@v2
-        with:
-          appSourcePath: ${{ github.workspace }} 
-          registryUrl: docker.io
-          registryUsername: ${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}
-          containerAppName: assignment-app
-          resourceGroup: osher-rg
-          imageToBuild: oshericko/assignment-app:${{ github.sha }}
+
+      - name: Print Docker image details
+        run: |
+          docker images
