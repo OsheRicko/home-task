@@ -1,0 +1,43 @@
+name: Trigger auto deployment for assignment-app
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/assignment-app-AutoDeployTrigger-a1068a1d-09b3-4eda-9069-1d959872d00c.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.ASSIGNMENTAPP_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}
+          containerAppName: assignment-app
+          resourceGroup: osher-rg
+          imageToBuild: oshericko/assignment-app:${{ github.sha }}
+          
+            
+
+     
+
