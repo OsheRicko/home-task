@@ -2,7 +2,7 @@ name: Trigger auto deployment for assignment-app
 
 # Define variables
 env:
-  var: test-4-now
+  var: Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd={Password1234!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
 
 # When this action will be executed
 on:
