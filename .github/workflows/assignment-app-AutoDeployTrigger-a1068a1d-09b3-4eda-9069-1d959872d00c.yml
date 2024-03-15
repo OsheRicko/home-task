@@ -5,10 +5,10 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ main ]
+      - main
     paths:
-    - '**'
-    - '.github/workflows/assignment-app-AutoDeployTrigger-a1068a1d-09b3-4eda-9069-1d959872d00c.yml'
+      - '**'
+      - '.github/workflows/assignment-app-AutoDeployTrigger-a1068a1d-09b3-4eda-9069-1d959872d00c.yml'
 
   # Allow manual trigger 
   workflow_dispatch:
@@ -26,7 +26,8 @@ jobs:
 
       - name: Retrieve and print secret from Azure Key Vault
         run: |
-          az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv
+          export SQL_CONNECTION_STRING=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-connection-string --query value -o tsv)
+          echo "SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING" >> $GITHUB_ENV
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
@@ -38,8 +39,3 @@ jobs:
           containerAppName: assignment-app
           resourceGroup: osher-rg
           imageToBuild: oshericko/assignment-app:${{ github.sha }}
-          
-            
-
-     
-
