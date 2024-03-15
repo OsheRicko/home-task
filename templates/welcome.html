@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calling all Swifties!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="background-image">
+        <div class="content">
+            <h1>Calling all Swifties!</h1>
+            <p>Let's Shake It Off and bring Taylor to Tel Aviv!</p>
+            <p>Help us bring Taylor Swift to perform here in Tel Aviv!</p>
+            <p>In order to sign the petition, click the button below:</p>
+            <a href="/add-name"><button>Sign the Petition</button></a>
+            <p>Already signed? <a href="/get-names">View signatures</a></p>
+            
+            <p class="signature-count">Current Signatures: <span id="signature-count">0</span> / 100,000</p>
+
+            <script>
+                // Fetch current signature count and update the DOM
+                fetch('/get-names')
+                    .then(response => response.json())
+                    .then(data => {
+                        const signatureCount = data.names.length;
+                        document.getElementById('signature-count').textContent = signatureCount;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching signature count:', error);
+                    });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

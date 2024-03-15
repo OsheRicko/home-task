@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Your Name</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="background-image">
+        <div class="content">
+            <h1>Sign the petition</h1>
+            <form id="add-name-form">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+                <button type="submit">Sign</button>
+            </form>
+
+            <script>
+                document.getElementById('add-name-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const name = document.getElementById('name').value.trim();
+
+                    if (name === '') {
+                        alert('Please enter your name.');
+                        return;
+                    }
+
+                    fetch('/names', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name: name })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/thanks'; // Redirect to thanks page
+                        } else {
+                            alert('Failed to sign the petition. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error signing petition:', error);
+                        alert('An error occurred while signing the petition. Please try again later.');
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

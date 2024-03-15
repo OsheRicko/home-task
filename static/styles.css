@@ -1,0 +1,10 @@
+/* styles.css */
+body {
+    background-image: url('taylor_swift_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    height: 100vh; /* Set height to 100% of viewport height */
+    overflow: hidden; /* Hide any content that overflows */
+}
