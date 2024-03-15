@@ -4,9 +4,11 @@ import os
 
 app = Flask(__name__)
 
+# Assuming SQL_PASS is an environment variable containing the password
+SQL_PASS = os.getenv('SQL_PASS')
 
-# Retrieve SQL connection string from environment variable
-SQL_CONNECTION_STRING = Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd='+os.getenv('SQL_PASS')+';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;
+# Properly format the connection string
+SQL_CONNECTION_STRING = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd=" + SQL_PASS + ";Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 
 API_KEY = 'f0a146930b4d4d689e195332241303'
 WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
