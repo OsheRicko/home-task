@@ -15,14 +15,13 @@ RUN apt-get update && \
 
 # Install msodbcsql18 driver package
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        gnupg \
-        && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-        curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-        apt-get update && \
-        ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
-        msodbcsql18 \
-        && rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends gnupg && \
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    wget -qO- https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql18 && \
+    rm -rf /var/lib/apt/lists/*
+
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
@@ -34,4 +33,3 @@ ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
 
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
- 
