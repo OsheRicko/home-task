@@ -1,9 +1,5 @@
 # Use a smaller base image
-FROM python:3.9-alpine
-
-# Create a non-root user
-# RUN adduser -D myuser
-# USER myuser
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,17 +7,20 @@ WORKDIR /app
 # Copy the Flask application code into the container
 COPY weather-app.py .
 
-# Install Flask and dependencies
-RUN pip install --no-cache-dir flask requests
+# Install required packages for connecting to SQL Server, Flask, and requests
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends unixodbc unixodbc-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir pyodbc flask requests
 
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
 # Define ARG for SQL connection string
-ARG SQL_PASS
+ARG SQL_CONNECTION_STRING
 
 # Set environment variable for SQL connection string
-ENV SQL_PASS=$SQL_PASS
+ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
 
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
