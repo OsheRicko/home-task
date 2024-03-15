@@ -8,14 +8,14 @@ app = Flask(__name__)
 SQL_PASS = os.getenv('SQL_PASS')
 
 # Properly format the connection string
-SQL_CONNECTION_STRING = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd=" + SQL_PASS + ";Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+SQL_CONNECTION_STRING = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:assignment-app-sql-server.database.windows.net,1433;Database=assignment-app-db;Uid=sqluser;Pwd={Password1234!};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 
 API_KEY = 'f0a146930b4d4d689e195332241303'
 WEATHER_API_URL = 'https://api.weatherapi.com/v1/current.json'
 
 @app.route('/')
 def instructions():
-    return f"SQL Connection String: {SQL_CONNECTION_STRING}"
+    return f"SQL Connection String: {SQL_CONNECTION_STRING}\n {SQL_PASS}"
 
 @app.route('/weather/<city>')
 def get_weather(city):
