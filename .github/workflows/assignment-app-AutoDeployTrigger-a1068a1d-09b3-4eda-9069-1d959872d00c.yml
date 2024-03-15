@@ -31,7 +31,7 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build --build-arg SQL_PASS="$SECRET" -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg 'SQL_PASS=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-password --query value -o tsv)' -t oshericko/assignment-app:${{ github.sha }}
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
