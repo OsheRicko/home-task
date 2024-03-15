@@ -9,15 +9,15 @@ COPY weather-app.py .
 
 # Install required packages for connecting to SQL Server, Flask, and requests
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends unixodbc unixodbc-dev && \
+    apt-get install -y --no-install-recommends unixodbc unixodbc-dev curl && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir pyodbc flask requests
 
 # Install msodbcsql18 driver package
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gnupg && \
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    wget -qO- https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
     apt-get update && \
     ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql18 && \
     rm -rf /var/lib/apt/lists/*
