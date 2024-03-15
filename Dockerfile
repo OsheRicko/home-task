@@ -17,5 +17,11 @@ RUN pip install --no-cache-dir flask requests
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
+# Define ARG for SQL connection string
+ARG SQL_CONNECTION_STRING
+
+# Set environment variable for SQL connection string
+ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
+
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
