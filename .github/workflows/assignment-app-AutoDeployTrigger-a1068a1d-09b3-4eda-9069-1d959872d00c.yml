@@ -1,6 +1,5 @@
 name: Trigger auto deployment for assignment-app
 
-
 # When this action will be executed
 on:
   # Automatically trigger it when detected changes in the repo
@@ -29,9 +28,11 @@ jobs:
         run: |
           export SECRET=$(az keyvault secret show --vault-name assignment-app-keyvault1 --name sql-conn-string --query value -o tsv)
           echo $SECRET
+
       - name: Build container image
         run: |
-          docker build --build-arg SQL_CONNECTION_STRING="${{ SECRET }}" -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_CONNECTION_STRING="${{ env.SECRET }}" -t oshericko/assignment-app:${{ github.sha }} .
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
 
