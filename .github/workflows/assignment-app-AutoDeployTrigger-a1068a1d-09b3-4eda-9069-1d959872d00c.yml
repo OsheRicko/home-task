@@ -31,7 +31,7 @@ jobs:
 
       - name: Build container image
         run: |
-          docker build --build-arg SQL_CONNECTION_STRING="test-is-fun?" -t oshericko/assignment-app:${{ github.sha }} .
+          docker build --build-arg SQL_CONNECTION_STRING="$SQL_CONNECTION_STRING" -t oshericko/assignment-app:${{ github.sha }} .
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
