@@ -24,3 +24,4 @@ ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
 
 # Command to run the Flask application
 CMD ["python", "weather-app.py"]
+ 
