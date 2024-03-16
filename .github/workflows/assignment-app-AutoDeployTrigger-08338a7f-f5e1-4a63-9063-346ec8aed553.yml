@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Azure CLI Login
-        run: az login -u devops@ubtechservices.onmicrosoft.com -p M1m2m3m4
+        run: az login -u "${{secrets.AZURE_USER}}" -p "${{secrets.AZURE_PASSWORD}}"
 
       - name: Retrieve secret from Azure Key Vault
         id: get_secret
