@@ -40,18 +40,23 @@ jobs:
       - name: Push container image to Docker Hub
         run: docker push oshericko/assignment-app:${{ github.sha }}
 
-      - name: Deploy container image to Azure Container Apps
-        uses: azure/container-apps-deploy-action@v2
+      #- name: Deploy container image to Azure Container Apps
+      #  uses: azure/container-apps-deploy-action@v2
+      #  with:
+      #    appSourcePath: ${{ github.workspace }} 
+      #    registryUrl: docker.io
+      #    registryUsername: ${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}
+      #    registryPassword: ${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}
+      #    containerAppName: assignment-app
+      #    resourceGroup: osher-rg
+      #    imageToDeploy: oshericko/assignment-app:${{ github.sha }}
+          
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
         with:
-          appSourcePath: ${{ github.workspace }} 
-          registryUrl: docker.io
-          registryUsername: ${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}
           containerAppName: assignment-app
           resourceGroup: osher-rg
           imageToDeploy: oshericko/assignment-app:${{ github.sha }}
-          
-            
 
      
 
