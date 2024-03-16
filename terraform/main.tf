@@ -3,6 +3,8 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
+# terraform import azurerm_resource_group.built_in /subscriptions/2837fa98-ba70-4d44-a7e7-730ceb335460/resourceGroups/osher-rg
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "built_in" {
