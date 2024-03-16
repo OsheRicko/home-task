@@ -47,5 +47,3 @@ jobs:
           resourceGroup: osher-rg
           imageToDeploy: oshericko/assignment-app:${{ github.sha }}
 
-     
-
