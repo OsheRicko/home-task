@@ -12,7 +12,7 @@ def create_table():
         conn = pyodbc.connect(SQL_CONNECTION_STRING)
         cursor = conn.cursor()
         cursor.execute("""
-            CREATE TABLE data (
+            CREATE TABLE IF NOT EXISTS data (
                 id INT IDENTITY(1,1) PRIMARY KEY,
                 name VARCHAR(255) NOT NULL
             )
@@ -59,7 +59,7 @@ def get_names():
         rows = cursor.fetchall()
         conn.close()
         names = [row[0] for row in rows]
-        return jsonify({'names': names})
+        return render_template('signed_names.html', names=names)
     except Exception as e:
         print("Database error:", e)
         return jsonify({'error': 'Failed to retrieve names from the database'}), 500
