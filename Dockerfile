@@ -1,5 +1,5 @@
 # Use a smaller base image
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -26,6 +26,12 @@ RUN apt-get update && \
 
 # Expose port 5000 for Flask app
 EXPOSE 5000
+
+# Create a non root user to use least privilege
+RUN useradd -m myuser
+
+# Switch to the non-root user
+USER myuser
 
 # Define ARG for SQL connection string
 ARG SQL_CONNECTION_STRING
