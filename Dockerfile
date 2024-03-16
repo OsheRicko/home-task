@@ -28,10 +28,10 @@ RUN apt-get update && \
 EXPOSE 5000
 
 # Create a non-root user to use least privilege
-RUN useradd --create-home appuser
+#RUN useradd --create-home appuser
 
 # Switch to the non-root user
-USER appuser
+#USER appuser
 
 # Define ARG for SQL connection string
 ARG SQL_CONNECTION_STRING
