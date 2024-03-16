@@ -28,11 +28,11 @@ RUN apt-get update && \
 EXPOSE 5000
 
 # Create a non-root user with the appropriate permissions
-RUN useradd -m -r -s /bin/bash appuser && \
-    chown -R appuser /app
+#RUN useradd -m -r -s /bin/bash appuser && \
+#    chown -R appuser /app
 
 # Switch to the non-root user
-USER appuser
+#USER appuser
 
 # Define ARG for SQL connection string
 ARG SQL_CONNECTION_STRING
