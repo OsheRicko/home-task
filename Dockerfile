@@ -1,5 +1,5 @@
 # Use a smaller base image
-FROM python:3.9-alpine
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -10,26 +10,28 @@ COPY templates /app/templates
 COPY static /app/static
 
 # Install required packages for connecting to SQL Server, Flask, and requests
-RUN apk update && \
-    apk add --no-cache unixodbc unixodbc-dev curl python3-dev build-base && \
-    rm -rf /var/cache/apk/* && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends unixodbc unixodbc-dev curl && \
+    rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir pyodbc flask requests
 
 # Install msodbcsql18 driver package
-RUN apk add --no-cache gnupg && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --import - && \
-    curl https://packages.microsoft.com/config/alpine/3.14/prod.list > /etc/apk/repositories && \
-    apk update && \
-    apk add --no-cache msodbcsql18
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gnupg && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql18 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
 # Create a non-root user to use least privilege
-RUN adduser -D myuser
+RUN adduser -D appuser
 
 # Switch to the non-root user
-USER myuser
+USER appuser
 
 # Define ARG for SQL connection string
 ARG SQL_CONNECTION_STRING
