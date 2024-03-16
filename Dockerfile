@@ -10,25 +10,23 @@ COPY templates /app/templates
 COPY static /app/static
 
 # Install required packages for connecting to SQL Server, Flask, and requests
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends unixodbc unixodbc-dev curl && \
-    rm -rf /var/lib/apt/lists/* && \
+RUN apk update && \
+    apk add --no-cache unixodbc unixodbc-dev curl && \
+    rm -rf /var/cache/apk/* && \
     pip install --no-cache-dir pyodbc flask requests
 
 # Install msodbcsql18 driver package
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql18 && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache gnupg && \
+    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --import - && \
+    curl https://packages.microsoft.com/config/alpine/3.14/prod.list > /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache msodbcsql18
 
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
-# Create a non root user to use least privilege
-RUN useradd -m myuser
+# Create a non-root user to use least privilege
+RUN adduser -D myuser
 
 # Switch to the non-root user
 USER myuser
@@ -41,5 +39,3 @@ ENV SQL_CONNECTION_STRING=$SQL_CONNECTION_STRING
 
 # Command to run the Flask application
 CMD ["python", "petition-app.py"]
-
- 
