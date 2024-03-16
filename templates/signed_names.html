@@ -1,0 +1,52 @@
+<!-- signed_names.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signed Names</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Style for the back button */
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker background color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image">
+        <div class="content">
+            <h1>Signed Names</h1>
+            <ul id="signed-names-list">
+                <!-- Signed names will be dynamically added here -->
+            </ul>
+            <a href="/" class="back-button">Back to Main Page</a>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const signedNamesList = document.getElementById('signed-names-list');
+            const names = {{ names|tojson }};
+
+            names.forEach(function(name) {
+                const listItem = document.createElement('li');
+                listItem.textContent = name;
+                signedNamesList.appendChild(listItem);
+            });
+        };
+    </script>
+</body>
+</html>
