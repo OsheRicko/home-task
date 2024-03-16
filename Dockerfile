@@ -27,11 +27,12 @@ RUN apt-get update && \
 # Expose port 5000 for Flask app
 EXPOSE 5000
 
-# Create a non-root user to use least privilege
-#RUN useradd --create-home appuser
+# Create a non-root user with the appropriate permissions
+RUN useradd -m -r -s /bin/bash appuser && \
+    chown -R appuser /app
 
 # Switch to the non-root user
-#USER appuser
+USER appuser
 
 # Define ARG for SQL connection string
 ARG SQL_CONNECTION_STRING
