@@ -21,10 +21,24 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.ASSIGNMENTAPP_AZURE_CREDENTIALS }}
+      - name: Azure CLI Login
+        run: az login -u devops@ubtechservices.onmicrosoft.com -p M1m2m3m4
+
+      - name: Retrieve secret from Azure Key Vault
+        id: get_secret
+        run: echo "::set-output name=secret::$(az keyvault secret show --vault-name assignment-app-keyvault2 --name sql-connection-string --query value -o tsv)"
+
+      - name: Build container image
+        run: |
+          docker build --build-arg SQL_CONNECTION_STRING="${SECRET}" -t oshericko/assignment-app:${{ github.sha }} .
+        env:
+          SECRET: ${{ steps.get_secret.outputs.secret }}
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.ASSIGNMENTAPP_REGISTRY_USERNAME }}" --password-stdin
+
+      - name: Push container image to Docker Hub
+        run: docker push oshericko/assignment-app:${{ github.sha }}
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
@@ -35,7 +49,8 @@ jobs:
           registryPassword: ${{ secrets.ASSIGNMENTAPP_REGISTRY_PASSWORD }}
           containerAppName: assignment-app
           resourceGroup: osher-rg
-          imageToBuild: oshericko/assignment-app:${{ github.sha }}
+          # i want to use this instead.
+          imageToDeploy: oshericko/assignment-app:${{ github.sha }}
           
             
 
