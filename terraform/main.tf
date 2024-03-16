@@ -49,7 +49,7 @@ resource "azurerm_container_app" "platform" {
     transport                  = "http"
     traffic_weight {
       latest_revision = true
-      percentage      = 100
+      percentage      = 50
     }
   }
 }
