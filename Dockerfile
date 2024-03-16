@@ -11,7 +11,7 @@ COPY static /app/static
 
 # Install required packages for connecting to SQL Server, Flask, and requests
 RUN apk update && \
-    apk add --no-cache unixodbc unixodbc-dev curl && \
+    apk add --no-cache unixodbc unixodbc-dev curl gcc musl-dev && \
     rm -rf /var/cache/apk/* && \
     pip install --no-cache-dir pyodbc flask requests
 
