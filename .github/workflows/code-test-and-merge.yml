@@ -22,22 +22,16 @@ jobs:
         run: pip install flake8
 
       - name: Run Flake8
-        run: flake8 --max-line-length=150 .
+        run: |
+          flake8 --max-line-length=150 .
+          # Add additional steps if needed after syntax check
 
       - name: Create Pull Request
-        if: success() && github.ref == 'refs/heads/development'
-        uses: actions/github-script@v5
+        uses: peter-evans/create-pull-request@v3
         with:
-          script: |
-            const github = require('@actions/github');
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-            const context = github.context;
-
-            const { data: pullRequest } = await octokit.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Automatic PR: Fix Python syntax issues',
-              head: 'development',
-              base: 'main',
-              body: 'Automated PR from GitHub Actions'
-            });
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Python syntax check and formatting updates"
+          title: "Python Syntax Check and Formatting Updates"
+          branch: "development"
+          body: |
+            This pull request includes Python syntax check and formatting updates.
