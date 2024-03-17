@@ -1,4 +1,4 @@
-name: Python Syntax Check and Merge to Main
+name: Python Syntax Check and Create Pull Request to Main
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - development
 
 jobs:
-  syntax_check_and_merge:
+  syntax_check_and_create_pr:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,12 +24,10 @@ jobs:
       - name: Run Flake8
         run: flake8 --max-line-length=150 .
 
-      - name: Merge to main
+      - name: Create Pull Request
         if: success() && github.ref == 'refs/heads/development'
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git fetch origin
-          git checkout main
-          git merge --no-ff ${{ github.sha }}
-          git push origin main
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: 'Automated PR from GitHub Actions'
+          title: 'Automatic PR: Fix Python syntax issues'
+          branch: main
