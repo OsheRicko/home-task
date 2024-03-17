@@ -26,9 +26,6 @@ jobs:
           flake8 --max-line-length=150 .
           # Add additional steps if needed after syntax check
 
-      - name: Fetch commits from development
-        run: git fetch origin development:development
-
       - name: Create Pull Request to Main
         uses: peter-evans/create-pull-request@v3
         with:
@@ -36,6 +33,5 @@ jobs:
           commit-message: "Python syntax check and formatting updates"
           title: "Python Syntax Check and Formatting Updates"
           base: "main"
-          head: "development"
           body: |
             This pull request includes Python syntax check and formatting updates from the development branch to the main branch.
