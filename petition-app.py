@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 SQL_CONNECTION_STRING = os.getenv('SQL_CONNECTION_STRING')
 
+
 def create_table():
     try:
         conn = pyodbc.connect(SQL_CONNECTION_STRING)
@@ -24,11 +25,14 @@ def create_table():
         print("Database error:", e)
         return False
 
+
 create_table()
+
 
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
+
 
 def execute_query(query, params=None):
     try:
@@ -45,9 +49,11 @@ def execute_query(query, params=None):
         print("Database error:", e)
         return False
 
+
 @app.route('/add-name', methods=['GET'])
 def add_name_form():
     return render_template('add_name.html')
+
 
 @app.route('/get-names', methods=['GET'])
 def get_names():
@@ -62,6 +68,7 @@ def get_names():
     except Exception as e:
         print("Database error:", e)
         return jsonify({'error': 'Failed to retrieve names from the database'}), 500
+
 
 @app.route('/names', methods=['POST'])
 def add_name():
@@ -80,9 +87,11 @@ def add_name():
         print("Error:", e)
         return jsonify({'error': 'Internal server error'}), 500
 
+
 @app.route('/thanks')
 def thanks():
     return render_template('thanks.html')
+
 
 if __name__ == '__main__':
     create_table()
