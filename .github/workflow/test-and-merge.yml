@@ -1,0 +1,61 @@
+name: Python Syntax Check and Create Pull Request to Main  
+
+on:  
+
+  push:  
+
+    branches:  
+
+      - development  
+
+jobs:  
+
+  syntax_check_and_create_pr:  
+
+    runs-on: ubuntu-latest  
+
+    steps:  
+
+      - name: Checkout code  
+
+        uses: actions/checkout@v2  
+
+        with:  
+
+          ref: development  
+
+      - name: Set up Python  
+
+        uses: actions/setup-python@v2  
+
+        with:  
+
+          python-version: 3.9  
+
+      - name: Install dependencies  
+
+        run: pip install flake8  
+
+      - name: Run Flake8  
+
+        run: |  
+          flake8 --max-line-length=150 .  
+          # Add additional steps if needed after syntax check  
+      - name: Create Pull Request to Main  
+
+        uses: peter-evans/create-pull-request@v3  
+
+        with:  
+
+          token: ${{ secrets.GH_PAT }}  
+
+          commit-message: "Python syntax check and formatting updates"  
+
+          title: "Python Syntax Check and Formatting Updates"  
+
+          base: "development"  
+
+          branch: "main"  
+
+          body: |  
+            This pull request includes Python syntax check and formatting updates from the development branch to the main branch.  
