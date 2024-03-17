@@ -26,8 +26,18 @@ jobs:
 
       - name: Create Pull Request
         if: success() && github.ref == 'refs/heads/development'
-        uses: peter-evans/create-pull-request@v3
+        uses: actions/github-script@v5
         with:
-          commit-message: 'Automated PR from GitHub Actions'
-          title: 'Automatic PR: Fix Python syntax issues'
-          branch: main
+          script: |
+            const github = require('@actions/github');
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            const context = github.context;
+
+            const { data: pullRequest } = await octokit.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Automatic PR: Fix Python syntax issues',
+              head: 'development',
+              base: 'main',
+              body: 'Automated PR from GitHub Actions'
+            });
